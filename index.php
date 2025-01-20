@@ -1,16 +1,13 @@
 <?php
 
-// Читаем ввод
 $input = trim(stream_get_contents(STDIN));
 $lines = explode("\n", $input);
 
-// Читаем размер лабиринта
 list($rows, $cols) = array_map('intval', explode(" ", trim($lines[0])));
 
-// Читаем матрицу лабиринта
-$maze = [];
+$matrix = [];
 for ($i = 0; $i < $rows; $i++) {
-    $maze[] = array_map('intval', explode(" ", trim($lines[$i + 1])));
+    $matrix[] = array_map('intval', explode(" ", trim($lines[$i + 1])));
 }
 
 // Читаем стартовые и конечные координаты
@@ -21,7 +18,7 @@ if (count($coords) !== 4) {
 }
 list($startRow, $startCol, $endRow, $endCol) = $coords;
 
-// Проверяем валидность координат
+// Проверяем координаты и их валидность
 if (
     $startRow < 0 || $startRow >= $rows || $startCol < 0 || $startCol >= $cols ||
     $endRow < 0 || $endRow >= $rows || $endCol < 0 || $endCol >= $cols
@@ -58,8 +55,8 @@ while (!$queue->isEmpty()) {
         $newRow = $currentRow + $dRow;
         $newCol = $currentCol + $dCol;
 
-        if ($newRow >= 0 && $newRow < $rows && $newCol >= 0 && $newCol < $cols && $maze[$newRow][$newCol] > 0) {
-            $newDistance = $distances[$currentRow][$currentCol] + $maze[$newRow][$newCol];
+        if ($newRow >= 0 && $newRow < $rows && $newCol >= 0 && $newCol < $cols && $matrix[$newRow][$newCol] > 0) {
+            $newDistance = $distances[$currentRow][$currentCol] + $matrix[$newRow][$newCol];
 
             if ($newDistance < $distances[$newRow][$newCol]) {
                 $distances[$newRow][$newCol] = $newDistance;
